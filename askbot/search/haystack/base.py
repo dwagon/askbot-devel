@@ -54,6 +54,8 @@ class BaseIndex(indexes.SearchIndex):
         return self.get_model().objects.filter(**filter_kwargs)
 
     def prepare(self, obj):
+        if not hasattr(self, '_backend_alias'):
+            self._get_backend('default_en')
         current_language = self.get_current_language(using=self._backend_alias, obj=obj)
 
         with override(current_language):
