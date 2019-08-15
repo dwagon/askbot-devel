@@ -189,7 +189,7 @@ class AskbotSetup:
             )
 
     def _set_verbosity(self, options):
-        self.verbosity = options.verbosity
+        self.verbosity = int(options.verbosity)
 
     # I think this logic can be immediately attached to argparse
     def _set_create_project(self, options):
@@ -269,7 +269,7 @@ class AskbotSetup:
                 print_message('  ^^^ forced overwrite!', self.verbosity)
                 shutil.copy(src, dst)
             elif dst.split(os.path.sep)[-1] not in skip_silently:
-                print_message(f'  ^^^ you already have one, please add contents of {src_file}', self.verbosity)
+                print_message(f'  ^^^ you already have one, please add contents of {src}', self.verbosity)
         print_message('Done.', self.verbosity)
 
     def _install_render_with_jinja2(self, render_list, context):
