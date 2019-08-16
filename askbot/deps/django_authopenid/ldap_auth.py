@@ -86,12 +86,11 @@ def ldap_authenticate_default(username, password):
         login_name_field = askbot_settings.LDAP_LOGIN_NAME_FIELD
         base_dn = askbot_settings.LDAP_BASE_DN
         login_template = login_name_field + '=%s,' + base_dn
-        encoding = askbot_settings.LDAP_ENCODING
 
         if master_username and master_password:
             ldap_session.simple_bind_s(
-                master_username.encode(encoding),
-                master_password.encode(encoding)
+                master_username,
+                master_password
             )
 
         user_filter = askbot_settings.LDAP_USER_FILTER_TEMPLATE % (
@@ -129,7 +128,7 @@ def ldap_authenticate_default(username, password):
         if user_search_result: # User found in LDAP Directory
             user_dn = user_search_result[0][0]
             user_information = user_search_result[0][1]
-            ldap_session.simple_bind_s(user_dn, password.encode(encoding)) #raises INVALID_CREDENTIALS
+            ldap_session.simple_bind_s(user_dn, password)   # raises INVALID_CREDENTIALS
             ldap_session.unbind_s()
 
             if given_name_field and surname_field:
@@ -148,7 +147,7 @@ def ldap_authenticate_default(username, password):
             }
 
             try:
-                email = user_information.get(email_field, [''])[0]
+                email = user_information.get(email_field, [''])[0].decode('utf-8')
                 user_info['email'] = EmailField().clean(email)
             except ValidationError:
                 user_info['email'] = ''

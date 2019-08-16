@@ -109,7 +109,7 @@ Use these when you have the "directory master passsword" -
 for a specific user who can access the rest of the directory,
 these were not added to the live settings due to security concerns.
 
-``LDAP_USER`` and ``LDAP_PASSWORD`` will be used only if both are provided!
+``LDAP_LOGIN_DN`` and ``LDAP_PASSWORD`` will be used only if both are provided!
 
 Since LDAP authentication requires so many parameters,
 you might need to :ref:`debug <debugging>` the settings.
